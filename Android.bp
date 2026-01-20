@@ -15,6 +15,14 @@
 android_app {
     name: "ParanoidSense",
     srcs: ["src/**/*.java", "src/**/*.kt"],
+    platform_apis: true,
+    privileged: true,
+    system_ext_specific: true,
+    certificate: "platform",
+    optimize: {
+        enabled: false,
+    },
+
     static_libs: [
         "androidx.core_core",
         "androidx.appcompat_appcompat",
@@ -26,23 +34,21 @@ android_app {
     ],
 
     required: [
-        "libFaceDetectCA",
-        "libmegface_ParanoidSense",
-        "libMegviiUnlock",
-        "libMegviiUnlock-jni-1.2",
         "default_permissions_co.aospa.sense.xml",
         "hiddenapi-whitelist-co.aospa.sense.xml",
         "privapp_whitelist_co.aospa.sense.xml",
         "ParanoidSenseOverlay",
     ],
 
-    platform_apis: true,
-    privileged: true,
-    system_ext_specific: true,
-    certificate: "platform",
-    optimize: {
-        enabled: false,
-    },
+    arch: {
+        arm64: {
+            jni_libs: [
+                "libMegviiUnlock-jni-1.2",
+            ],
+        }
+    }
+
+
 }
 
 cc_prebuilt_library_shared {
@@ -99,6 +105,12 @@ cc_prebuilt_library_shared {
     target: {
         android_arm64: { srcs: [ "lib/libMegviiUnlock-jni-1.2.so" ] },
     },
+
+    shared_libs: [
+        "libFaceDetectCA",
+        "libmegface_ParanoidSense",
+        "libMegviiUnlock",
+    ],
 
     compile_multilib: "64",
     check_elf_files: false,
