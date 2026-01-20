@@ -12,39 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-android_app {
-    name: "ParanoidSense",
-    srcs: ["src/**/*.java", "src/**/*.kt"],
-    static_libs: [
-        "androidx.core_core",
-        "androidx.appcompat_appcompat",
-        "setup-wizard-lib",
-        "setupcompat",
-        "setupdesign",
-        "vendor.aospa.biometrics.face",
-        "vendor.aospa.biometrics.face.impl",
-    ],
-
-    required: [
-        "libFaceDetectCA",
-        "libmegface_ParanoidSense",
-        "libMegviiUnlock",
-        "libMegviiUnlock-jni-1.2",
-        "default_permissions_co.aospa.sense.xml",
-        "hiddenapi-whitelist-co.aospa.sense.xml",
-        "privapp_whitelist_co.aospa.sense.xml",
-        "ParanoidSenseOverlay",
-    ],
-
-    platform_apis: true,
-    privileged: true,
-    system_ext_specific: true,
-    certificate: "platform",
-    optimize: {
-        enabled: false,
-    },
-}
-
 cc_prebuilt_library_shared {
     name: "libFaceDetectCA",
     strip: {
@@ -100,6 +67,12 @@ cc_prebuilt_library_shared {
         android_arm64: { srcs: [ "lib/libMegviiUnlock-jni-1.2.so" ] },
     },
 
+    shared_libs: [
+        "libFaceDetectCA",
+        "libmegface_ParanoidSense",
+        "libMegviiUnlock",
+    ],
+
     compile_multilib: "64",
     check_elf_files: false,
     system_ext_specific: true,
@@ -132,4 +105,42 @@ prebuilt_etc {
     src: "permissions/privapp_whitelist_co.aospa.sense.xml",
     sub_dir: "permissions",
     system_ext_specific: true,
+}
+
+android_app {
+    name: "ParanoidSense",
+    srcs: ["src/**/*.java", "src/**/*.kt"],
+    platform_apis: true,
+    privileged: true,
+    system_ext_specific: true,
+    certificate: "platform",
+    optimize: {
+        enabled: false,
+    },
+
+    static_libs: [
+        "androidx.core_core",
+        "androidx.appcompat_appcompat",
+        "setup-wizard-lib",
+        "setupcompat",
+        "setupdesign",
+        "vendor.aospa.biometrics.face",
+        "vendor.aospa.biometrics.face.impl",
+    ],
+
+    required: [
+        "default_permissions_co.aospa.sense.xml",
+        "hiddenapi-whitelist-co.aospa.sense.xml",
+        "privapp_whitelist_co.aospa.sense.xml",
+        "ParanoidSenseOverlay",
+    ],
+
+    arch: {
+        arm64: {
+            jni_libs: [
+                "libMegviiUnlock-jni-1.2",
+            ],
+        }
+    }
+
 }
