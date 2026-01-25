@@ -18,7 +18,8 @@ cc_prebuilt_library_shared {
         none: true,
     },
     target: {
-        android_arm64: { srcs: [ "lib/libFaceDetectCA.so" ] },
+        android_arm64: { srcs: [ "libs/arm64/libFaceDetectCA.so" ] },
+        android_x86_64: { srcs: [ "libs/x86-fake/libFaceDetectCA.so" ] },
     },
 
     compile_multilib: "64",
@@ -34,7 +35,8 @@ cc_prebuilt_library_shared {
         none: true,
     },
     target: {
-        android_arm64: { srcs: [ "lib/libmegface.so" ] },
+        android_arm64: { srcs: [ "libs/arm64/libmegface.so" ] },
+        android_x86_64: { srcs: [ "libs/x86-fake/libmegface.so" ] },
     },
 
     compile_multilib: "64",
@@ -49,7 +51,8 @@ cc_prebuilt_library_shared {
         none: true,
     },
     target: {
-        android_arm64: { srcs: [ "lib/libMegviiUnlock.so" ] },
+        android_arm64: { srcs: [ "libs/arm64/libMegviiUnlock.so" ] },
+        android_x86_64: { srcs: [ "libs/x86-fake/libMegviiUnlock.so" ] },
     },
 
     compile_multilib: "64",
@@ -64,7 +67,8 @@ cc_prebuilt_library_shared {
         none: true,
     },
     target: {
-        android_arm64: { srcs: [ "lib/libMegviiUnlock-jni-1.2.so" ] },
+        android_arm64: { srcs: [ "libs/arm64/libMegviiUnlock-jni-1.2.so" ] },
+        android_x86_64: { srcs: [ "libs/x86-fake/libMegviiUnlock-jni-1.2.so" ] },
     },
 
     shared_libs: [
@@ -81,7 +85,7 @@ cc_prebuilt_library_shared {
 
 java_import {
     name: "vendor.aospa.biometrics.face.impl",
-    jars: ["lib/vendorImplPrebuilt.jar"],
+    jars: ["libs/arm64/vendorImplPrebuilt.jar"],
     system_ext_specific: true,
     sdk_version: "current",
 }
@@ -133,14 +137,7 @@ android_app {
         "hiddenapi-whitelist-co.aospa.sense.xml",
         "privapp_whitelist_co.aospa.sense.xml",
         "ParanoidSenseOverlay",
+        "libMegviiUnlock-jni-1.2",
     ],
-
-    arch: {
-        arm64: {
-            jni_libs: [
-                "libMegviiUnlock-jni-1.2",
-            ],
-        }
-    }
 
 }
